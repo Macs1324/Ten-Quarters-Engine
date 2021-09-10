@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    
+    int cacca;
 }world;
 
 #endif
