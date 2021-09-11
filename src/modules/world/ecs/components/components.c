@@ -1,0 +1,4 @@
+#ifndef TQ_MOD_WORLD_ECS_COMPONENTS_C
+#define TQ_MOD_WORLD_ECS_COMPONENTS_C
+
+#endif

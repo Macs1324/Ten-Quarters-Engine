@@ -4,11 +4,18 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <world/world.h>
+
 const int SCREEN_WIDTH = 1920 / 2;
 const int SCREEN_HEIGHT = 1080 / 2;
 
 int main()
 {
+
+
+    World world;
+
+
     if(glfwInit() != GLFW_TRUE)
     {
         printf("No glfw :(\n");
@@ -21,6 +28,7 @@ int main()
     {
         printf("No glew :(\n");
     }
+
     while(!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
