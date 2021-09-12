@@ -8,4 +8,6 @@ typedef struct
     Ecs ecs;
 }World;
 
+World worldNew();
+
 #endif

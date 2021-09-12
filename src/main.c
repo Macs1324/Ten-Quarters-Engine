@@ -11,11 +11,6 @@ const int SCREEN_HEIGHT = 1080 / 2;
 
 int main()
 {
-
-
-    World world;
-
-
     if(glfwInit() != GLFW_TRUE)
     {
         printf("No glfw :(\n");
@@ -28,6 +23,23 @@ int main()
     {
         printf("No glew :(\n");
     }
+
+
+
+    World world = worldNew();
+    for(int i = 1; i < ECS_COMPONENTS_TOTAL; i++)
+    {
+        printf("%d\n", world.ecs.componentStartIndices[i]);
+    }
+
+    printf("%d\n", 212992 / sizeof(ecsTransform));
+
+    Entity block = ecsAddEntity(&world.ecs);
+    Entity block2 = ecsAddEntity(&world.ecs);
+
+    ecsAddComponent(&world.ecs, block, ECS_COMPONENT_TRANSFORM);
+    ecsAddComponent(&world.ecs, block2, ECS_COMPONENT_TRANSFORM);
+
 
     while(!glfwWindowShouldClose(window))
     {

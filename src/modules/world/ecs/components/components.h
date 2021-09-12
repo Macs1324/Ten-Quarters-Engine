@@ -22,17 +22,18 @@ typedef struct
 //Transform component
 typedef struct
 {
+    ecsComponent parent;
+    
     vec3 position;
     vec3 rotation;
     vec3 scale;
 }ecsTransform;
 
-//Create an empty transform component
-ecsTransform ecsTransformNew();
-
 
 typedef struct
 {
+    ecsComponent parent;
+
     float* dataVertices;
     unsigned int* dataIndices;
 
@@ -44,12 +45,16 @@ typedef struct
 
 typedef struct
 {
+    ecsComponent parent;
+
     vec3 center;
     vec3 size;
 }ecsBoxCollider;
 
 typedef struct
 {
+    ecsComponent parent;
+
     unsigned int texture;
 }ecsSprite;
 
