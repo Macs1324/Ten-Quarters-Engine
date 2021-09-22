@@ -112,6 +112,6 @@ void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentI
 EntityData* ecsGetEntityData(Ecs* ecs, Entity entity);
 
 void ecsRemoveEntity(Ecs* ecs, Entity* entity);
-void ecsRemoveComponent(Ecs* ecs, Entity* entity, enum ecsComponentsEnum componentID);
+void ecsRemoveComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID);
 
 #endif

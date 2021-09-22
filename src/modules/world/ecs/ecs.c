@@ -7,7 +7,7 @@
     Again, super important function to help us get the index of the first component
     of a type in the components array
 */
-int ecsGetIndex(Ecs* ecs, enum ecsComponentsEnum componentID)
+int ecsGetComponentStartIndex(Ecs* ecs, enum ecsComponentsEnum componentID)
 {
     int r = 0;
     for(enum ecsComponentsEnum id = componentID; id > ECS_COMPONENT_ZERO; id--)
@@ -26,7 +26,7 @@ Ecs ecsNew()
 
     for(int i = ECS_COMPONENT_ZERO; i< ECS_COMPONENTS_TOTAL; i++)
     {
-        r.componentStartIndices[i] = ecsGetIndex(&r, i);
+        r.componentStartIndices[i] = ecsGetComponentStartIndex(&r, i);
     }
 
     return r;
@@ -82,19 +82,49 @@ void ecsAddComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID
         index = ecs->counterComponents[componentID]++;
         generation = 0;
     }
-    printf("Index: %d  | generation: %d\n", index, generation);
-    fflush(stdout);
-
     
 
     //This is how you get a component from the char array
     ((ecsComponent*)( ecs->components + (ecs->componentStartIndices[componentID] ) ) )->alive = true;
+    ((ecsComponent*)( ecs->components + (ecs->componentStartIndices[componentID] ) ) )->parent = entity;
 }
 
-void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID);
-EntityData* ecsGetEntityData(Ecs* ecs, Entity entity);
 
-void ecsRemoveEntity(Ecs* ecs, Entity* entity);
-void ecsRemoveComponent(Ecs* ecs, Entity* entity, enum ecsComponentsEnum componentID);
+/* 
+    Check whether component is alive and return a pointer to it
+*/
+void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID)
+{
+    
+}
+EntityData* ecsGetEntityData(Ecs* ecs, Entity entity)
+{
+    if(entity.index != -1)
+    {
+        if(ecs->entities[entity.index].generation == entity.generation)
+        {
+            if(ecs->entities[entity.index].alive)
+            {
+                return &ecs->entities[entity.index];
+            }
+        }
+    }
+
+    return NULL;
+}
+
+void ecsRemoveEntity(Ecs* ecs, Entity* entity)
+{
+    for(int i = ECS_COMPONENT_ZERO; i < ECS_COMPONENTS_TOTAL; i++)
+    {
+        ecsRemoveComponent(ecs, *entity, i);
+    }
+    ecsGetEntityData(ecs, *entity)->alive = false;
+    entity->index = -1;
+}
+void ecsRemoveComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID)
+{
+    ((ecsComponent*)ecsGetComponent(ecs, entity, componentID))->alive = false;
+}
 
 #endif
