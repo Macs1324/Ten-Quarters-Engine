@@ -95,7 +95,7 @@ void ecsAddComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID
 */
 void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID)
 {
-    
+    printf("I am seggsy\n");
 }
 EntityData* ecsGetEntityData(Ecs* ecs, Entity entity)
 {
