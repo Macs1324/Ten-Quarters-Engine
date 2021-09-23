@@ -95,7 +95,22 @@ void ecsAddComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID
 */
 void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID)
 {
-    printf("I am seggsy\n");
+    EntityData* entityData = ecsGetEntityData(ecs, entity);
+
+    if(entityData->componentIndices[componentID].index != -1)
+    {
+        ecsComponent* component = ecs->components + ecs->componentStartIndices[componentID] + (entityData->componentIndices[componentID].index * ECS_COMPONENTSIZE[componentID]);
+        if(entityData->componentIndices[componentID].generation == component->generation)
+        {
+            if(component->alive)
+            {
+                return component;
+            }
+            return NULL;
+        }
+        return NULL;
+    }
+
 }
 EntityData* ecsGetEntityData(Ecs* ecs, Entity entity)
 {
