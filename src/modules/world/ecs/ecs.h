@@ -19,21 +19,35 @@ enum ecsComponentsEnum
 };
 
 static size_t ECS_COMPONENTSIZE[ECS_COMPONENTS_TOTAL] = {
-    0,
+    0,                                 //ECS_COMPONENT_ZERO
 
-    sizeof(ecsTransform),
-    sizeof(ecsMesh),
-    sizeof(ecsBoxCollider),
-    sizeof(ecsSprite)
-};
+    sizeof(ecsTransform),              //ECS_COMPONENT_TRANSFORM
+    sizeof(ecsMesh),                   //ECS_COMPONENT_MESH
+    sizeof(ecsBoxCollider ),           //ECS_COMPONENT_BOX_COLLIDER
+    sizeof(ecsSprite)                  //ECS_COMPONENT_SPRITE
+}; 
 
 //I'm using a generational array pattern to recycle memory
 typedef GenerationalIndex Entity;
 
 typedef struct
 {
+    /*
+        Entity generation
+        used for checking that an outdated handle isn't used
+    */
     unsigned int generation;
+
+    /*
+        Boolean for checking whether or not the entity can be overridden or not
+    */
     unsigned int alive;
+
+    /*
+        The meat and potatoes of the EntityData struct
+        an array of indices that can be indexed by a component ID
+        and "returns" the index of the given component in the Ecs struct
+    */
     GenerationalIndex componentIndices[ECS_COMPONENTS_TOTAL];
 }EntityData;
 
@@ -71,14 +85,19 @@ typedef struct
 
 typedef struct
 {
-    //Generational array of generational indices 
+    /*
+        Generational array of generational indices 
+        contains all the entitity data
+    */
     EntityData entities[ECS_MAX_COMPONENTS];
     //Specifies how many entities there ACTUALLY are in the ecs
     unsigned int counterEntities;
 
 
-    //This is of type char so that it's an array of bytes
-    //When you cast the type to the needed type you should be alright
+    /*  
+        This is of type char so that it's an array of bytes
+        When you cast the type to the needed type you should be alright
+    */
     char components[
         sizeof(ecsTransform) * ECS_MAX_COMPONENTS +
         sizeof(ecsMesh) * ECS_MAX_COMPONENTS + 
@@ -86,13 +105,17 @@ typedef struct
         sizeof(ecsSprite) * ECS_MAX_COMPONENTS
     ];
 
-    //An array of counters, to keep track of how many of which
-    //components are stored
+    /*  
+        An array of counters, to keep track of how many of which
+        components are stored
+    */
     unsigned int counterComponents[ECS_COMPONENTS_TOTAL];
 
-    //SUPER IMPORTANT: Gets computed in the ecs constructor, and 
-    //saves the starting indices of each component
-    //Used to use the components array as an array of different types
+    /*
+        SUPER IMPORTANT: Gets computed in the ecs constructor, and 
+        saves the starting indices of each component
+        Used to use the components array as an array of different types
+    */
     unsigned int componentStartIndices[ECS_COMPONENTS_TOTAL];
 }Ecs;
 

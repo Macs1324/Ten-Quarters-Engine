@@ -8,7 +8,6 @@ World worldNew()
     World r;
     r.ecs = ecsNew();
 
-
     return r;
 }
 
