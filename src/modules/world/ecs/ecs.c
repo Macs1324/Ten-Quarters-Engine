@@ -96,6 +96,7 @@ void ecsAddComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID
 */
 void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentID)
 {
+<<<<<<< HEAD
     if(entity.index == -1)
     {
         printf("Cannot get component %d\n\tEntity handle is dead\n", componentID);
@@ -137,6 +138,24 @@ void* ecsGetComponent(Ecs* ecs, Entity entity, enum ecsComponentsEnum componentI
             return (void*)(component);
         }
     }
+=======
+    EntityData* entityData = ecsGetEntityData(ecs, entity);
+
+    if(entityData->componentIndices[componentID].index != -1)
+    {
+        ecsComponent* component = ecs->components + ecs->componentStartIndices[componentID] + (entityData->componentIndices[componentID].index * ECS_COMPONENTSIZE[componentID]);
+        if(entityData->componentIndices[componentID].generation == component->generation)
+        {
+            if(component->alive)
+            {
+                return component;
+            }
+            return NULL;
+        }
+        return NULL;
+    }
+
+>>>>>>> fe7c03e68640bdfe46715a5c8310cbb7f211366b
 }
 EntityData* ecsGetEntityData(Ecs* ecs, Entity entity)
 {
