@@ -39,7 +39,7 @@ int main()
 
     for(int i = 0; i < ECS_COMPONENTS_TOTAL; i++)
     {
-        printf("%d %d\n", ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->generation, ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->parent.generation);
+        printf("%d %d\n", ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->generation, ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->entity.generation);
     }
 
     ecsRemoveComponent(&world.ecs, block, ECS_COMPONENT_TRANSFORM);
@@ -48,7 +48,7 @@ int main()
     printf("\n");
     for(int i = 0; i < ECS_COMPONENTS_TOTAL; i++)
     {
-        printf("%d %d\n", ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->generation, ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->parent.generation);
+        printf("%d %d\n", ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->generation, ((ecsComponent*)ecsGetComponent(&world.ecs, block, i))->entity.generation);
     }
 
     ecsTransform* sburro;
